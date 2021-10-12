@@ -1,11 +1,17 @@
 import yfinance as yf
 import pandas as pd
-stock_names = ["BAJAJ-AUTO.NS", "TITAN.NS", "TATAMOTORS.NS", "HEROMOTOCO.NS", "EICHERMOT.NS", "ITC.NS", "SBIN.NS", "BAJAJFINSV.NS", "HINDALCO.NS", "KOTAKBANK.NS", "TATACONSUM.NS", "CIPLA.NS", "DRREDDY.NS", "RELIANCE.NS", "WIPRO.NS", "BRITANNIA.NS", "NESTLEIND.NS", "TATASTEEL.NS", "UPL.NS", "AXISBANK.NS", "JSWSTEEL.NS", "SBILIFE.NS", "NTPC.NS", "MARUTI.NS", "BAJFINANCE.NS", "HINDUNILVR.NS", "HDFC.NS", "HDFCBANK.NS", "INDUSINDBK.NS", "BPCL.NS", "SUNPHARMA.NS", "ULTRACEMCO.NS", "M&M.NS", "BHARTIARTL.NS", "SHREECEM.NS", "GRASIM.NS", "TCS.NS", "LT.NS", "IOC.NS", "POWERGRID.NS", "ASIANPAINT.NS", "ONGC.NS", "ADANIPORTS.NS", "DIVISLAB.NS", "HDFCLIFE.NS", "ICICIBANK.NS", "INFY.NS", "COALINDIA.NS", "TECHM.NS", "HCLTECH.NS"]
 
-stock_names.sort()
+#################################################################
+# Top 50 Nifty stocks list updated as of Oct 11, 2021
+# Pass below three values to calculate difference % between average price of stocks with current price.
+# The final value is a sorted value dictionary. The best stock will be at the top having negative % value.
+#################################################################
+stock_names = ["BAJAJ-AUTO.NS", "TITAN.NS", "TATAMOTORS.NS", "HEROMOTOCO.NS", "EICHERMOT.NS", "ITC.NS", "SBIN.NS", "BAJAJFINSV.NS", "HINDALCO.NS", "KOTAKBANK.NS", "TATACONSUM.NS", "CIPLA.NS", "DRREDDY.NS", "RELIANCE.NS", "WIPRO.NS", "BRITANNIA.NS", "NESTLEIND.NS", "TATASTEEL.NS", "UPL.NS", "AXISBANK.NS", "JSWSTEEL.NS", "SBILIFE.NS", "NTPC.NS", "MARUTI.NS", "BAJFINANCE.NS", "HINDUNILVR.NS", "HDFC.NS", "HDFCBANK.NS", "INDUSINDBK.NS", "BPCL.NS", "SUNPHARMA.NS", "ULTRACEMCO.NS", "M&M.NS", "BHARTIARTL.NS", "SHREECEM.NS", "GRASIM.NS", "TCS.NS", "LT.NS", "IOC.NS", "POWERGRID.NS", "ASIANPAINT.NS", "ONGC.NS", "ADANIPORTS.NS", "DIVISLAB.NS", "HDFCLIFE.NS", "ICICIBANK.NS", "INFY.NS", "COALINDIA.NS", "TECHM.NS", "HCLTECH.NS"]
 start_date = "2021-01-01"
 end_date = "2021-10-11"
+#################################################################
 
+stock_names.sort()
 # Change format to pass value of stocks in yfinance function
 # stock_names_formatted
 first_flag = 1
@@ -43,7 +49,7 @@ print("Mean values:", mean_dict)
 #     market_price = stock_info['regularMarketPrice']
 #     market_price_dict[x]=market_price
 
-# New code for market value
+# New faster and optimized code to calculate market value
 market_stock_value_df = yf.download(tickers=stock_names_formatted,period="1d",interval="1d",
                                     auto_adjust = True,prepost = False,threads = True,proxy = None)
 df_small_market_stock_value_df = market_stock_value_df.iloc[:,0:stock_names_length]
@@ -52,7 +58,7 @@ displacement_value_stock_name = 0
 market_price_dict = {}
 
 for x in stock_names:
-    # mean is not actually used here... as data is for just 1 day
+    # mean is not actually used here as data is for just 1 day. 
     market_price_of_stock = df_small_market_stock_value_df.iloc[:, displacement_value_stock_name].mean()
     market_price_dict[x] = market_price_of_stock
     displacement_value_stock_name = displacement_value_stock_name + 1
